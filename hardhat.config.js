@@ -1,5 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
 require("dotenv").config();
+const privatekeys = process.env.PRIVATE_KEYS || ""
+
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -16,6 +18,15 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   solidity: "0.8.9",
   networks: {
-    localhost: {}
+    localhost: {},
+    sepolia: {
+      url:`https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`,
+      accounts: privatekeys.split(",")
+    }
   },
+  etherscan: {
+    apikey: {
+      sepolia: process.env.ETHERSCAN_API_KEY
+    }
+  }
 };
